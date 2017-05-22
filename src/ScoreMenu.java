@@ -14,7 +14,7 @@ import java.util.ArrayList;
  */
 public class ScoreMenu extends JPanel {
 
-    JPanel plScore = new JPanel(null);
+    JPanel plScore = new JPanel();
 
     ScoreMenu(){
         setLayout(null);
@@ -58,6 +58,7 @@ public class ScoreMenu extends JPanel {
 
         plScore.removeAll();
         plScore.setLayout(new GridLayout(logs.size(),1));
+
 
         for(int i = 0; i < logs.size(); i++) {
             boolean c = false;

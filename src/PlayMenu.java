@@ -15,6 +15,8 @@ public class PlayMenu extends JPanel {
 
     JTextField tfIp;
     MenuButton btnJoin;
+    PlayMenu self = this;
+    JButton btnMake;
 
     PlayMenu() {
         setLayout(null);
@@ -33,7 +35,23 @@ public class PlayMenu extends JPanel {
 
         add(lbTitle);
 
-        JButton btnMake = new MenuButton("Spel maken");
+        btnMake = new MenuButton("Spel maken");
+        btnMake.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+//                JOptionPane pane = new JOptionPane();
+//                pane.showMessageDialog(self,"Waiting for client to connect...");
+                //TODO: wait for client dialog
+
+                String name = JOptionPane.showInputDialog(self, "Wat is jouw naam?");
+
+                btnMake.setText("Wachten op Client...");
+
+                GameStream gs = new Server();
+                new GameFrame(gs, name);
+                BeginMenu.frame.dispose();
+            }
+        });
         btnMake.setBounds(480 - 320, 350, 640, 50);
 
         JButton btnConnect = new MenuButton("Verbinden via IP");
@@ -42,7 +60,7 @@ public class PlayMenu extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 btnConnect.setEnabled(false);
-                tfIp = new JTextField("locahost");
+                tfIp = new JTextField("localhost");
                 tfIp.addMouseListener(new MouseAdapter() {
                     @Override
                     public void mouseClicked(MouseEvent e) {
@@ -54,6 +72,19 @@ public class PlayMenu extends JPanel {
                 add(tfIp);
 
                 btnJoin = new MenuButton("GO");
+                btnJoin.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        try {
+                            String name = JOptionPane.showInputDialog(self, "Wat is jouw naam?");
+
+                            new GameFrame(new Client(tfIp.getText()), name);
+                            BeginMenu.frame.dispose();
+                        }catch (Exception ex){
+                            tfIp.setText("Can't connect to server");
+                        }
+                    }
+                });
                 btnJoin.setFont(new Font("Comic Sans MS", Font.BOLD, 16));
                 btnJoin.setBounds(480 - 320 + 540, 500, 100, 40);
                 add(btnJoin);

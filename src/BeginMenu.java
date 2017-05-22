@@ -16,6 +16,9 @@ import java.util.Date;
 public class BeginMenu extends JPanel{
 
     static JPanel cards = new JPanel(new CardLayout());
+    public static JFrame frame;
+
+    static String userName = "GentleLad";
 
     public static void main(String[] args){
         try {
@@ -34,22 +37,12 @@ public class BeginMenu extends JPanel{
 
         ScoreManager.getInstance().addLog(new ScoreLog(new Date(),"LunaLois", 4, 10));
         ScoreManager.getInstance().addLog(new ScoreLog(new Date(),"Lolnen10", 10, 3));
-        ScoreManager.getInstance().addLog(new ScoreLog(new Date(),"Rickeitje", 10, 6));
-        ScoreManager.getInstance().addLog(new ScoreLog(new Date(),"ZaRooler", 7, 10));
-        ScoreManager.getInstance().addLog(new ScoreLog(new Date(),"LunaLois", 6, 10));
-        ScoreManager.getInstance().addLog(new ScoreLog(new Date(),"Lolnen10", 5, 10));
-        ScoreManager.getInstance().addLog(new ScoreLog(new Date(),"Rickeitje", 10, 6));
-        ScoreManager.getInstance().addLog(new ScoreLog(new Date(),"ZaRooler", 10, 9));
-        ScoreManager.getInstance().addLog(new ScoreLog(new Date(),"LunaLois", 6, 10));
-        ScoreManager.getInstance().addLog(new ScoreLog(new Date(),"Lolnen10", 5, 10));
-        ScoreManager.getInstance().addLog(new ScoreLog(new Date(),"Rickeitje", 10, 6));
-        ScoreManager.getInstance().addLog(new ScoreLog(new Date(),"ZaRooler", 10, 9));
 
         cards.add(new BeginMenu(), "BeginCard");
         cards.add(new PlayMenu(), "PlayCard");
         cards.add(new ScoreMenu(), "ScoreCard");
 
-        JFrame frame = new JFrame("Stracciatella");
+        frame = new JFrame("Stracciatella");
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.setSize(960,800);
         frame.setLocationRelativeTo(null);
