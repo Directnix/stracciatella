@@ -17,6 +17,8 @@ public class GameFrame extends JFrame {
     TextArea taChat;
     JTextField tfChat;
 
+    String opponentUserName;
+
     GameFrame(GameStream gameStream, String username) {
         this.gameStream = gameStream;
         try {
@@ -35,7 +37,9 @@ public class GameFrame extends JFrame {
         pnNameWrap.setBounds(MARGIN, MARGIN, WIDTH, 40);
         pnNameWrap.setBackground(Color.white);
 
-        JLabel lblName = new JLabel(getOpponentUserName());
+        opponentUserName = getOpponentUserName();
+
+        JLabel lblName = new JLabel(opponentUserName);
         lblName.setFont(new Font("Comic Sans MS", Font.BOLD, 20));
         pnNameWrap.add(lblName);
 
@@ -54,7 +58,7 @@ public class GameFrame extends JFrame {
             public void keyPressed(KeyEvent e) {
                 super.keyTyped(e);
                 if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-                    putOutString("You: " + tfChat.getText());
+                    putOutString(username + ": " + tfChat.getText());
                     try {
                         gameStream.out.writeUTF("CHAT!!" + String.valueOf(tfChat.getText()));
                         tfChat.setText("");
@@ -101,7 +105,7 @@ public class GameFrame extends JFrame {
                 try {
                     String input = String.valueOf(gameStream.in.readUTF());
                     if (input.split("!!")[0].equals("CHAT"))
-                        putOutString("Opponent: " + input.split("!!")[1]);
+                        putOutString(opponentUserName + ": " + input.split("!!")[1]);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
