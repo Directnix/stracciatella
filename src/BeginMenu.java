@@ -18,8 +18,6 @@ public class BeginMenu extends JPanel{
     static JPanel cards = new JPanel(new CardLayout());
     public static JFrame frame;
 
-    static String userName = "GentleLad";
-
     public static void main(String[] args){
         try {
             for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {

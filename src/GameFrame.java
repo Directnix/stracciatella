@@ -58,12 +58,14 @@ public class GameFrame extends JFrame {
             public void keyPressed(KeyEvent e) {
                 super.keyTyped(e);
                 if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-                    putOutString(username + ": " + tfChat.getText());
-                    try {
-                        gameStream.out.writeUTF("CHAT!!" + String.valueOf(tfChat.getText()));
-                        tfChat.setText("");
-                    } catch (IOException e1) {
-                        e1.printStackTrace();
+                    if(!tfChat.getText().isEmpty()) {
+                        putOutString(username + ": " + tfChat.getText());
+                        try {
+                            gameStream.out.writeUTF("CHAT!!" + String.valueOf(tfChat.getText()));
+                            tfChat.setText("");
+                        } catch (IOException e1) {
+                            e1.printStackTrace();
+                        }
                     }
 
                 }
