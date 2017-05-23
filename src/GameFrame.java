@@ -75,6 +75,10 @@ public class GameFrame extends JFrame {
 
         contentpane.add(tfChat);
 
+        Game game = new Game(gameStream);
+        game.setBounds(320 + MARGIN, MARGIN, 630 - (MARGIN * 2), 760 - (MARGIN * 2));
+        contentpane.add(game);
+
         setContentPane(contentpane);
         setResizable(false);
         setVisible(true);
