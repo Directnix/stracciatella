@@ -8,12 +8,10 @@ public abstract class GameObject {
 
     Point2D location;
     Point2D prevLocation;
-    GameStream stream;
 
-    GameObject(Point2D location, GameStream stream){
+    GameObject(Point2D location){
         this.location = location;
         this.prevLocation = null;
-        this.stream = stream;
     }
 
     abstract void update();

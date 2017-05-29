@@ -1,4 +1,6 @@
+import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
 import java.io.IOException;
@@ -8,9 +10,10 @@ import java.io.IOException;
  */
 public class Player extends GameObject {
 
-    Player(Point2D location, GameStream stream) {
-        super(location, stream);
-        new Thread(new PlayerHandler()).start();
+    double size = 70;
+
+    Player(Point2D location) {
+        super(location);
     }
 
     @Override
@@ -19,29 +22,9 @@ public class Player extends GameObject {
 
     @Override
     void draw(Graphics2D g2d) {
-        g2d.setPaint(Color.blue);
-        g2d.fill(new Ellipse2D.Double(location.getX() - 30, location.getY() - 30, 60, 60));
+        g2d.setPaint(Color.black);
+        g2d.fill(new Ellipse2D.Double(location.getX() - (size/2), location.getY() - (size/2), size, size));
     }
 
-    synchronized String getStringLocation() {
-        return String.valueOf(location.getX()) + "--" + String.valueOf(location.getY());
-    }
 
-    class PlayerHandler implements Runnable {
-        @Override
-        public void run() {
-            while (true) {
-                try {
-//                    System.out.println(location.getX() + "-" + prevLocation.getX());
-                   // if(prevLocation == null || prevLocation.getX() != location.getX() || location.getY() != prevLocation.getY()) {
-                        stream.out.writeUTF("PLAYER_LOCATION!!" + getStringLocation());
-                        stream.out.flush();
-                        Thread.sleep(10);
-                    //}
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-    }
 }
