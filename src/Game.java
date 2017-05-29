@@ -23,17 +23,27 @@ public class Game extends JPanel implements ActionListener {
     Opponent opponent;
     Puk puk;
 
-    Game(GameStream stream) {
+    int y, oppY;
+
+    Game(GameStream stream, int type) {
+        if(type == GameFrame.TYPE_SERVER){
+            oppY = 87;
+            y = 662;
+        } else {
+            oppY = 662;
+            y = 87;
+        }
+
         setBackground(Color.white);
         this.stream = stream;
 
-        player = new Player(new Point2D.Double(310, 100));
+        player = new Player(new Point2D.Double(310, y));
         objects.add(player);
 
-        opponent = new Opponent(new Point2D.Double(310, 100));
+        opponent = new Opponent(new Point2D.Double(310, oppY));
         objects.add(opponent);
 
-        puk = new Puk(new Point2D.Double(310,375));
+        puk = new Puk(new Point2D.Double(310,375),player,opponent, type);
         objects.add(puk);
 
         setFocusable(true);
@@ -41,16 +51,14 @@ public class Game extends JPanel implements ActionListener {
             @Override
             public void mouseDragged(MouseEvent e) {
                 super.mouseDragged(e);
-                player.prevLocation = player.location;
-                player.location = new Point2D.Double(e.getX(), e.getY());
+                player.location = new Point2D.Double(e.getX(), y);
 
             }
 
             @Override
             public void mouseMoved(MouseEvent e) {
                 super.mouseMoved(e);
-                player.prevLocation = player.location;
-                player.location = new Point2D.Double(e.getX(), e.getY());
+                player.location = new Point2D.Double(e.getX(), y);
 
             }
         });
@@ -68,12 +76,6 @@ public class Game extends JPanel implements ActionListener {
         g2d.drawLine(0, getHeight() / 2, getWidth(), getHeight() / 2);
 
         g2d.setStroke(new BasicStroke(10));
-
-        g2d.drawLine(0, 5, getWidth() / 3, 5);
-        g2d.drawLine(0, getHeight() - 5, getWidth() / 3, getHeight() - 5);
-
-        g2d.drawLine((getWidth() / 3) * 2, 5, getWidth(), 5);
-        g2d.drawLine((getWidth() / 3) * 2, getHeight() - 5, getWidth(), getHeight() - 5);
 
         g2d.drawLine(5, 0, 5, getHeight());
         g2d.drawLine(getWidth() - 5, 0, getWidth() - 5, getHeight());

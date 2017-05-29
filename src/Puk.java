@@ -7,15 +7,71 @@ import java.awt.geom.Point2D;
  */
 public class Puk extends GameObject {
 
+    double currentSpeed = 3;
+    double speedX = currentSpeed;
+    double speedY = currentSpeed;
     double size = 55;
 
-    Puk(Point2D location) {
+    Player player;
+    Opponent opponent;
+
+    int type;
+
+    Puk(Point2D location, Player player, Opponent opponent, int type) {
         super(location);
+        this.player = player;
+        this.opponent = opponent;
+        this.type = type;
     }
 
     @Override
     void update() {
+        if(type == GameFrame.TYPE_SERVER) {
+            location = new Point2D.Double(location.getX() + speedX, location.getY() + speedY);
 
+            if (location.getX() - (size / 2) < 0) {
+                speedX = -speedX;
+                location = new Point2D.Double((size / 2), location.getY());
+            } else if (location.getX() + (size / 2) > GameFrame.P_WIDTH) {
+                speedX = -speedX;
+                location = new Point2D.Double(GameFrame.P_WIDTH - (size / 2), location.getY());
+            }
+
+            if (location.getY() - (size / 2) < 0 || location.getY() + (size / 2) > GameFrame.P_HEIGHT) {
+                location = new Point2D.Double(310, 374);
+                currentSpeed = 3;
+                speedX = currentSpeed;
+                speedY = currentSpeed;
+            }
+
+            if (location.distance(player.location) < (size / 2) + (player.size / 2)) {
+
+                if (location.getX() >= player.location.getX())
+                    speedX = currentSpeed;
+                if (location.getX() < player.location.getX())
+                    speedX = -currentSpeed;
+
+                if(speedY < 0)
+                    speedY = currentSpeed;
+                else
+                    speedY = -currentSpeed;
+
+            }
+
+            if (location.distance(opponent.location) < (size / 2) + (opponent.size / 2)) {
+                if (location.getX() >= opponent.location.getX())
+                    speedX = currentSpeed;
+                if (location.getX() < opponent.location.getX())
+                    speedX = -currentSpeed;
+
+                if(speedY < 0)
+                    speedY = currentSpeed;
+                else
+                    speedY = -currentSpeed;
+            }
+
+            currentSpeed += 0.05;
+        }
     }
 
     @Override

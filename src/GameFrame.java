@@ -16,6 +16,13 @@ public class GameFrame extends JFrame {
     final int MARGIN = 5;
     final int WIDTH = 320 - (MARGIN * 2);
 
+    static int P_WIDTH = 960;
+    static int P_HEIGHT = 800;
+
+    static int TYPE_CLIENT = 0;
+    static int TYPE_SERVER = 1;
+    int type;
+
     Queue<String> messages = new LinkedList<>();
 
     GameStream gameStream;
@@ -27,8 +34,9 @@ public class GameFrame extends JFrame {
 
     Game game;
 
-    GameFrame(GameStream gameStream, String username) {
+    GameFrame(GameStream gameStream, String username, int type) {
         this.gameStream = gameStream;
+        this.type = type;
         try {
             gameStream.out.writeUTF("USER!!" + String.valueOf(username));
         } catch (IOException e) {
@@ -36,7 +44,7 @@ public class GameFrame extends JFrame {
         }
 
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        setSize(960, 800);
+        setSize(P_WIDTH, P_HEIGHT);
         setLocationRelativeTo(null);
 
         JPanel contentpane = new JPanel(null);
@@ -79,8 +87,10 @@ public class GameFrame extends JFrame {
 
         contentpane.add(tfChat);
 
-        game = new Game(gameStream);
+        game = new Game(gameStream, type);
         game.setBounds(320 + MARGIN, MARGIN, 630 - (MARGIN * 2), 760 - (MARGIN * 2));
+        P_WIDTH = game.getWidth();
+        P_HEIGHT = game.getHeight();
         contentpane.add(game);
 
         setContentPane(contentpane);
@@ -123,8 +133,15 @@ public class GameFrame extends JFrame {
                                 Double.parseDouble(values[2])
                         );
 
-                        if (values.length > 3) {
-                            putOutString(opponentUserName + ": " + values[3]);
+                        if(type == GameFrame.TYPE_CLIENT){
+                            game.puk.location = new Point2D.Double(
+                                    Double.parseDouble(values[3]),
+                                    Double.parseDouble(values[4])
+                            );
+                        }
+
+                        if (values.length > 5) {
+                            putOutString(opponentUserName + ": " + values[5]);
                         }
 
                     }
@@ -148,7 +165,10 @@ public class GameFrame extends JFrame {
                         String write = "STREAM!!";
 
                         write += String.valueOf(game.player.location.getX()) + "!!";
-                        write += String.valueOf(game.player.location.getY());
+                        write += String.valueOf(game.player.location.getY()) + "!!";
+
+                        write += String.valueOf(game.puk.location.getX()) + "!!";
+                        write += String.valueOf(game.puk.location.getY());
 
                         if (!messages.isEmpty()) {
                             String message = messages.poll();

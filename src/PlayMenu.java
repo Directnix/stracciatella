@@ -48,7 +48,7 @@ public class PlayMenu extends JPanel {
                 btnMake.setText("Wachten op Client...");
 
                 GameStream gs = new Server();
-                new GameFrame(gs, name);
+                new GameFrame(gs, name, GameFrame.TYPE_SERVER);
                 BeginMenu.frame.dispose();
             }
         });
@@ -78,7 +78,7 @@ public class PlayMenu extends JPanel {
                         try {
                             String name = JOptionPane.showInputDialog(self, "Wat is jouw naam?");
 
-                            new GameFrame(new Client(tfIp.getText()), name);
+                            new GameFrame(new Client(tfIp.getText()), name, GameFrame.TYPE_CLIENT);
                             BeginMenu.frame.dispose();
                         }catch (Exception ex){
                             tfIp.setText("Can't connect to server");

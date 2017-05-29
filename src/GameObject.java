@@ -7,11 +7,9 @@ import java.awt.geom.Point2D;
 public abstract class GameObject {
 
     Point2D location;
-    Point2D prevLocation;
 
     GameObject(Point2D location){
         this.location = location;
-        this.prevLocation = null;
     }
 
     abstract void update();
