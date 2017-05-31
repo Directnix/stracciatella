@@ -38,6 +38,12 @@ public class Puk extends GameObject {
             }
 
             if (location.getY() - (size / 2) < 0 || location.getY() + (size / 2) > GameFrame.P_HEIGHT) {
+                if(location.getY() - (size / 2) < 0){
+                    player.score++;
+                }else{
+                    opponent.score++;
+                }
+
                 location = new Point2D.Double(310, 374);
                 currentSpeed = 3;
                 speedX = currentSpeed;
@@ -47,9 +53,9 @@ public class Puk extends GameObject {
             if (location.distance(player.location) < (size / 2) + (player.size / 2)) {
 
                 if (location.getX() >= player.location.getX())
-                    speedX = currentSpeed;
+                    speedX = Math.random() * currentSpeed;
                 if (location.getX() < player.location.getX())
-                    speedX = -currentSpeed;
+                    speedX = Math.random() * -currentSpeed;
 
                 if(speedY < 0)
                     speedY = currentSpeed;
@@ -60,9 +66,9 @@ public class Puk extends GameObject {
 
             if (location.distance(opponent.location) < (size / 2) + (opponent.size / 2)) {
                 if (location.getX() >= opponent.location.getX())
-                    speedX = currentSpeed;
+                    speedX = Math.random() * currentSpeed;
                 if (location.getX() < opponent.location.getX())
-                    speedX = -currentSpeed;
+                    speedX = Math.random() * -currentSpeed;
 
                 if(speedY < 0)
                     speedY = currentSpeed;
@@ -70,7 +76,7 @@ public class Puk extends GameObject {
                     speedY = -currentSpeed;
             }
 
-            currentSpeed += 0.05;
+            currentSpeed += 0.001;
         }
     }
 

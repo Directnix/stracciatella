@@ -138,10 +138,11 @@ public class GameFrame extends JFrame {
                                     Double.parseDouble(values[3]),
                                     Double.parseDouble(values[4])
                             );
+                            game.score = values[5];
                         }
 
-                        if (values.length > 5) {
-                            putOutString(opponentUserName + ": " + values[5]);
+                        if (values.length > 6) {
+                            putOutString(opponentUserName + ": " + values[6]);
                         }
 
                     }
@@ -168,7 +169,8 @@ public class GameFrame extends JFrame {
                         write += String.valueOf(game.player.location.getY()) + "!!";
 
                         write += String.valueOf(game.puk.location.getX()) + "!!";
-                        write += String.valueOf(game.puk.location.getY());
+                        write += String.valueOf(game.puk.location.getY()) + "!!";
+                        write += String.valueOf(game.player.score + " - " + game.opponent.score);
 
                         if (!messages.isEmpty()) {
                             String message = messages.poll();

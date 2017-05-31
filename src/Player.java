@@ -11,6 +11,7 @@ import java.io.IOException;
 public class Player extends GameObject {
 
     double size = 70;
+    int score = 0;
 
     Player(Point2D location) {
         super(location);

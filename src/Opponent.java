@@ -10,6 +10,7 @@ import java.io.InterruptedIOException;
 public class Opponent extends GameObject {
 
     double size = 70;
+    int score = 0;
 
     Opponent(Point2D location) {
         super(location);

@@ -39,13 +39,7 @@ public class PlayMenu extends JPanel {
         btnMake.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-//                JOptionPane pane = new JOptionPane();
-//                pane.showMessageDialog(self,"Waiting for client to connect...");
-                //TODO: wait for client dialog
-
                 String name = JOptionPane.showInputDialog(self, "Wat is jouw naam?");
-
-                btnMake.setText("Wachten op Client...");
 
                 GameStream gs = new Server();
                 new GameFrame(gs, name, GameFrame.TYPE_SERVER);
@@ -110,4 +104,5 @@ public class PlayMenu extends JPanel {
         add(btnConnect);
 
     }
+
 }

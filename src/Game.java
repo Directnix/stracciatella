@@ -23,9 +23,12 @@ public class Game extends JPanel implements ActionListener {
     Opponent opponent;
     Puk puk;
 
-    int y, oppY;
+    String score = "0 - 0";
+
+    int y, oppY, type;
 
     Game(GameStream stream, int type) {
+        this.type = type;
         if(type == GameFrame.TYPE_SERVER){
             oppY = 87;
             y = 662;
@@ -85,6 +88,11 @@ public class Game extends JPanel implements ActionListener {
         g2d.fill(new Ellipse2D.Double(getWidth() / 2 - 60, getHeight() / 2 - 60, 120, 120));
         g2d.setPaint(Color.red);
         g2d.draw(new Ellipse2D.Double(getWidth() / 2 - 60, getHeight() / 2 - 60, 120, 120));
+
+        if(type == GameFrame.TYPE_SERVER)
+            g2d.drawString(player.score + " - " + opponent.score, 100,100);
+        else
+            g2d.drawString(score,100,100);
 
         for (GameObject o : objects)
             o.draw(g2d);
