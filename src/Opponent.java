@@ -1,8 +1,6 @@
 import java.awt.*;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
-import java.io.IOException;
-import java.io.InterruptedIOException;
 
 /**
  * Created by Nick van Endhoven, 2119719 on 5/22/2017.
@@ -12,8 +10,8 @@ public class Opponent extends GameObject {
     double size = 70;
     int score = 0;
 
-    Opponent(Point2D location) {
-        super(location);
+    Opponent(Point2D location, Game game) {
+        super(location, game);
     }
 
     @Override

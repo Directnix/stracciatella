@@ -72,13 +72,17 @@ public class GameFrame extends JFrame {
         tfChat.addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
-                super.keyTyped(e);
+                super.keyPressed(e);
                 if (e.getKeyCode() == KeyEvent.VK_ENTER) {
                     if (!tfChat.getText().isEmpty()) {
                         putOutString(username + ": " + tfChat.getText());
-                        //gameStream.out.writeUTF("CHAT!!" + String.valueOf(tfChat.getText()));
                         messages.add(String.valueOf(tfChat.getText()));
                         tfChat.setText("");
+                    }
+                }
+                if(e.getKeyCode() == KeyEvent.VK_F1){
+                    if(type == GameFrame.TYPE_SERVER && !game.gameEnd) {
+                        game.pause = !game.pause;
                     }
                 }
             }
@@ -87,7 +91,7 @@ public class GameFrame extends JFrame {
 
         contentpane.add(tfChat);
 
-        game = new Game(gameStream, type);
+        game = new Game(gameStream, type, username, opponentUserName);
         game.setBounds(320 + MARGIN, MARGIN, 630 - (MARGIN * 2), 760 - (MARGIN * 2));
         P_WIDTH = game.getWidth();
         P_HEIGHT = game.getHeight();
@@ -138,11 +142,13 @@ public class GameFrame extends JFrame {
                                     Double.parseDouble(values[3]),
                                     Double.parseDouble(values[4])
                             );
-                            game.score = values[5];
+                            game.opponent.score = Integer.parseInt(values[5].split("-")[0].trim());
+                            game.player.score = Integer.parseInt(values[5].split("-")[1].trim());
+                            game.pause = Boolean.parseBoolean(values[6]);
                         }
 
-                        if (values.length > 6) {
-                            putOutString(opponentUserName + ": " + values[6]);
+                        if (values.length > 7) {
+                            putOutString(opponentUserName + ": " + values[7]);
                         }
 
                     }
@@ -170,7 +176,8 @@ public class GameFrame extends JFrame {
 
                         write += String.valueOf(game.puk.location.getX()) + "!!";
                         write += String.valueOf(game.puk.location.getY()) + "!!";
-                        write += String.valueOf(game.player.score + " - " + game.opponent.score);
+                        write += String.valueOf(game.player.score + " - " + game.opponent.score) + "!!";
+                        write += game.pause;
 
                         if (!messages.isEmpty()) {
                             String message = messages.poll();

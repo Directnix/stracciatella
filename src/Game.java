@@ -1,3 +1,5 @@
+import Score.ScoreLog;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -6,7 +8,9 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
@@ -23,13 +27,22 @@ public class Game extends JPanel implements ActionListener {
     Opponent opponent;
     Puk puk;
 
-    String score = "0 - 0";
+    final int endscore = 10;
 
     int y, oppY, type;
+    boolean pause = true;
 
-    Game(GameStream stream, int type) {
+    String username;
+    String opponentUsername;
+
+    boolean gameEnd = false;
+
+    Game(GameStream stream, int type, String username, String opponentUsername) {
         this.type = type;
-        if(type == GameFrame.TYPE_SERVER){
+        this.username = username;
+        this.opponentUsername = opponentUsername;
+
+        if (type == GameFrame.TYPE_SERVER) {
             oppY = 87;
             y = 662;
         } else {
@@ -40,13 +53,13 @@ public class Game extends JPanel implements ActionListener {
         setBackground(Color.white);
         this.stream = stream;
 
-        player = new Player(new Point2D.Double(310, y));
+        player = new Player(new Point2D.Double(310, y), this);
         objects.add(player);
 
-        opponent = new Opponent(new Point2D.Double(310, oppY));
+        opponent = new Opponent(new Point2D.Double(310, oppY), this);
         objects.add(opponent);
 
-        puk = new Puk(new Point2D.Double(310,375),player,opponent, type);
+        puk = new Puk(new Point2D.Double(310, 375), player, opponent, type, this);
         objects.add(puk);
 
         setFocusable(true);
@@ -54,14 +67,16 @@ public class Game extends JPanel implements ActionListener {
             @Override
             public void mouseDragged(MouseEvent e) {
                 super.mouseDragged(e);
-                player.location = new Point2D.Double(e.getX(), y);
+                if (!pause)
+                    player.location = new Point2D.Double(e.getX(), y);
 
             }
 
             @Override
             public void mouseMoved(MouseEvent e) {
                 super.mouseMoved(e);
-                player.location = new Point2D.Double(e.getX(), y);
+                if (!pause)
+                    player.location = new Point2D.Double(e.getX(), y);
 
             }
         });
@@ -89,19 +104,47 @@ public class Game extends JPanel implements ActionListener {
         g2d.setPaint(Color.red);
         g2d.draw(new Ellipse2D.Double(getWidth() / 2 - 60, getHeight() / 2 - 60, 120, 120));
 
-        if(type == GameFrame.TYPE_SERVER)
-            g2d.drawString(player.score + " - " + opponent.score, 100,100);
-        else
-            g2d.drawString(score,100,100);
+        g2d.setFont(new Font("Courir New", Font.BOLD, 12));
 
+        g2d.drawString(player.score + " - " + opponent.score, getWidth() - 100, 20);
         for (GameObject o : objects)
+
             o.draw(g2d);
+
+        if (gameEnd) {
+            Font f = new Font("Courir New", Font.BOLD, 24);
+            g2d.setFont(f);
+
+            FontMetrics metrics = g.getFontMetrics(f);
+
+            String text;
+            if (player.score >= endscore)
+                text = "Gewonnen! Goed gedaan";
+            else
+                text = opponentUsername + " heeft gewonnen, loser..";
+
+            int x =(getWidth() - metrics.stringWidth(text)) / 2;
+            g2d.drawString(text, x, getHeight()/3);
+        }
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
         for (GameObject o : objects)
             o.update();
+
+        if ((player.score >= endscore || opponent.score >= endscore) && !gameEnd) {
+            gameEnd = true;
+
+            ScoreManager.getInstance().addLog(new ScoreLog(new Date(), username, opponentUsername, player.score, opponent.score));
+            ScoreManager.getInstance().save();
+
+            pause = true;
+
+            CardLayout cardLayout = (CardLayout) BeginMenu.cards.getLayout();
+            cardLayout.show(BeginMenu.cards, "BeginCard");
+        }
+
         repaint();
     }
 }

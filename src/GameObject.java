@@ -7,9 +7,11 @@ import java.awt.geom.Point2D;
 public abstract class GameObject {
 
     Point2D location;
+    Game game;
 
-    GameObject(Point2D location){
+    GameObject(Point2D location, Game game){
         this.location = location;
+        this.game = game;
     }
 
     abstract void update();

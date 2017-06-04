@@ -7,6 +7,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 /**
@@ -14,7 +15,7 @@ import java.util.ArrayList;
  */
 public class ScoreMenu extends JPanel {
 
-    JPanel plScore = new JPanel();
+    JPanel plScore = new JPanel(new GridBagLayout());
 
     ScoreMenu(){
         setLayout(null);
@@ -57,15 +58,21 @@ public class ScoreMenu extends JPanel {
         ArrayList<ScoreLog> logs = ScoreManager.getInstance().logs;
 
         plScore.removeAll();
-        plScore.setLayout(new GridLayout(logs.size(),1));
 
+        GridBagConstraints g = new GridBagConstraints();
+        g.anchor = GridBagConstraints.FIRST_LINE_START;
+        g.fill = GridBagConstraints.HORIZONTAL;
+        g.gridx = 0;
+        g.ipady = 20;
+        g.gridwidth = 3;
 
-        for(int i = 0; i < logs.size(); i++) {
+        for(int i = logs.size() - 1; i >= 0; i--) {
             boolean c = false;
             if(i % 2 == 0)
                 c = true;
 
-            plScore.add(new ScorePane(logs.get(i),c));
+            g.gridy = logs.size() - i;
+            plScore.add(new ScorePane(logs.get(i),c), g);
         }
 
         revalidate();
@@ -74,12 +81,11 @@ public class ScoreMenu extends JPanel {
 
     class ScorePane extends JPanel{
         ScorePane(ScoreLog scoreLog, boolean c){
-            setLayout(null);
 
-            //TODO: date format
-            //TODO: fix height
+            SimpleDateFormat formatter = new SimpleDateFormat("HH:ss dd-MM");
+            String formattedDate = formatter.format(scoreLog.getDate());
 
-            JLabel lblScore = new JLabel(scoreLog.getOpponentUserName());
+            JLabel lblScore = new JLabel(formattedDate +" \t" + scoreLog.getUsername() + " - " + scoreLog.getOpponentUserName());
             JLabel lblInfo = new JLabel(scoreLog.getPlayerScore() + " - " + scoreLog.getOpponentScore());
 
             lblScore.setFont(new Font("Comic Sans MS", Font.BOLD, 20));

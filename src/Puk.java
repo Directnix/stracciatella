@@ -17,8 +17,8 @@ public class Puk extends GameObject {
 
     int type;
 
-    Puk(Point2D location, Player player, Opponent opponent, int type) {
-        super(location);
+    Puk(Point2D location, Player player, Opponent opponent, int type, Game game) {
+        super(location, game);
         this.player = player;
         this.opponent = opponent;
         this.type = type;
@@ -26,7 +26,7 @@ public class Puk extends GameObject {
 
     @Override
     void update() {
-        if(type == GameFrame.TYPE_SERVER) {
+        if(type == GameFrame.TYPE_SERVER && !game.pause) {
             location = new Point2D.Double(location.getX() + speedX, location.getY() + speedY);
 
             if (location.getX() - (size / 2) < 0) {

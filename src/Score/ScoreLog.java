@@ -1,8 +1,6 @@
 package Score;
 
-import javax.swing.*;
 import java.io.Serializable;
-import java.time.LocalDateTime;
 import java.util.Date;
 
 /**
@@ -10,11 +8,12 @@ import java.util.Date;
  */
 public class ScoreLog implements Serializable{
     Date date;
-    String opponentUserName;
+    String opponentUserName, username;
     int playerScore, opponentScore;
 
-    public ScoreLog(Date date, String opponentUserName, int playerScore, int opponentScore) {
+    public ScoreLog(Date date, String username, String opponentUserName, int playerScore, int opponentScore) {
         this.date = date;
+        this.username = username;
         this.opponentUserName = opponentUserName;
         this.playerScore = playerScore;
         this.opponentScore = opponentScore;
@@ -28,6 +27,10 @@ public class ScoreLog implements Serializable{
                 ", playerScore=" + playerScore +
                 ", opponentScore=" + opponentScore +
                 '}';
+    }
+
+    public String getUsername() {
+        return username;
     }
 
     public Date getDate() {

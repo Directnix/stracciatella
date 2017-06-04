@@ -6,6 +6,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.Date;
@@ -33,8 +34,9 @@ public class BeginMenu extends JPanel{
         CardLayout cardLayout = (CardLayout) cards.getLayout();
         cardLayout.show(cards, "BeginCard");
 
-        ScoreManager.getInstance().addLog(new ScoreLog(new Date(),"LunaLois", 4, 10));
-        ScoreManager.getInstance().addLog(new ScoreLog(new Date(),"Lolnen10", 10, 3));
+        File f = new File("save.strac");
+        if(f.exists())
+            ScoreManager.getInstance().load();
 
         cards.add(new BeginMenu(), "BeginCard");
         cards.add(new PlayMenu(), "PlayCard");
