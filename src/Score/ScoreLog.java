@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 /**
- * Created by Nick van Endhoven, 2119719 on 5/15/2017.
+ * Created by Nick van Endhoven en Lois Gussenhoven on 5/15/2017.
  */
 public class ScoreLog implements Serializable{
     Date date;

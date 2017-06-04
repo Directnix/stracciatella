@@ -11,7 +11,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 /**
- * Created by Nick van Endhoven, 2119719 on 5/16/2017.
+ * Created by Nick van Endhoven en Lois Gussenhoven on 5/16/2017.
  */
 public class ScoreMenu extends JPanel {
 

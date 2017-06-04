@@ -9,7 +9,7 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 /**
- * Created by Nick van Endhoven, 2119719 on 5/16/2017.
+ * Created by Nick van Endhoven en Lois Gussenhoven on 5/16/2017.
  */
 public class PlayMenu extends JPanel {
 

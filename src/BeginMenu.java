@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 import java.util.Date;
 
 /**
- * Created by Nick van Endhoven, 2119719 on 5/15/2017.
+ * Created by Nick van Endhoven en Lois Gussenhoven on 5/15/2017.
  */
 public class BeginMenu extends JPanel{
 

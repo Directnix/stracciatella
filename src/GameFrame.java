@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.util.*;
 
 /**
- * Created by Nick van Endhoven, 2119719 on 5/22/2017.
+ * Created by Nick van Endhoven en Lois Gussenhoven on 5/22/2017.
  */
 public class GameFrame extends JFrame {
 

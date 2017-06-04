@@ -16,7 +16,7 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 /**
- * Created by Nick van Endhoven, 2119719 on 5/22/2017.
+ * Created by Nick van Endhovenen en Lois Gussenhoven on 5/22/2017.
  */
 public class Game extends JPanel implements ActionListener {
 
